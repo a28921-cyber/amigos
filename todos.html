@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta aos Amigos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #1e1e2f;
+      color: #ffffff;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card {
+      background: #ffffff;
+      color: #333333;
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 90%;
+      width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #333333;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    /* Cores Pergunta 0 (Quem sou eu?) */
+    #btn-filipe {
+      background-color: #008053; /* Verde */
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    #btn-filipe:hover {
+      background-color: #005c3b;
+    }
+
+    #btn-lucas {
+      background-color: #e10613; /* Vermelho */
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-lucas:hover {
+      background-color: #b8040f;
+    }
+
+    #btn-miguel {
+      background-color: #ff8c00; /* Laranja */
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-miguel:hover {
+      background-color: #e07b00;
+    }
+
+    #btn-carolina {
+      background-color: #e83e8c; /* Rosa */
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-carolina:hover {
+      background-color: #c82372;
+    }
+
+    /* Cores Pergunta 1 (Filipe) */
+    #btn-benfica {
+      background-color: #e10613;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    #btn-benfica:hover {
+      background-color: #b8040f;
+    }
+
+    #btn-sporting {
+      background-color: #008053;
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-sporting:hover {
+      background-color: #005c3b;
+    }
+
+    /* Cores Batismo Genericas */
+    .btn-sim-estilo {
+      background-color: #4a6ea9;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    .btn-sim-estilo:hover {
+      background-color: #3b5988;
+    }
+
+    .btn-nao-estilo {
+      background-color: #d9534f;
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    .btn-nao-estilo:hover {
+      background-color: #c9302c;
+    }
+
+    /* Cores Rota do Lucas */
+    #btn-crossfit {
+      background-color: #008053;
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-crossfit:hover {
+      background-color: #005c3b;
+    }
+
+    #btn-musculacao {
+      background-color: #e10613;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    #btn-musculacao:hover {
+      background-color: #b8040f;
+    }
+
+    /* Cores Rota da Carolina */
+    #btn-caes {
+      background-color: #008053;
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-caes:hover {
+      background-color: #005c3b;
+    }
+
+    #btn-gatos {
+      background-color: #e10613;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    #btn-gatos:hover {
+      background-color: #b8040f;
+    }
+
+    /* Cores Rota do Miguel */
+    #btn-sim-padrinho {
+      background-color: #008053; /* Verde */
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    #btn-sim-padrinho:hover {
+      background-color: #005c3b;
+    }
+
+    #btn-nao-padrinho {
+      background-color: #e10613; /* Vermelho */
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    #btn-nao-padrinho:hover {
+      background-color: #b8040f;
+    }
+
+    /* Telas de Sucesso */
+    #resultado, #resultado-lucas, #resultado-carolina, #resultado-miguel {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #resultado h1, #resultado-lucas h1, #resultado-carolina h1, #resultado-miguel h1 {
+      color: #4a6ea9;
+      font-size: 2.2rem;
+    }
+
+    .img-container {
+      border: 4px solid #4a6ea9;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    #resultado img, #resultado-lucas img, #resultado-carolina img, #resultado-miguel img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+    }
+
+    .mensagem-final {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #333333;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pergunta 0 -->
+  <div id="pergunta-0" class="card">
+    <h1>Quem sou eu?</h1>
+    <div class="buttons">
+      <button id="btn-filipe" onclick="irParaPergunta1()">Filipe</button>
+      <button id="btn-lucas" onclick="irParaPerguntaLucas()">Lucas</button>
+      <button id="btn-miguel" onclick="irParaPerguntaMiguel()">Miguel</button>
+      <button id="btn-carolina" onclick="irParaPerguntaCarolina()">Carolina</button>
+    </div>
+  </div>
+
+  <!-- Rota do Filipe -->
+  <div id="pergunta-1" class="card" style="display: none;">
+    <h1>Benfica ou Sporting?</h1>
+    <div class="buttons">
+      <button id="btn-benfica" onclick="irParaPergunta2()">Benfica</button>
+      <button id="btn-sporting" onclick="aumentarBenfica()">Sporting</button>
+    </div>
+  </div>
+
+  <div id="pergunta-2" class="card" style="display: none;">
+    <h1>Estou Batizado?</h1>
+    <div class="buttons">
+      <button id="btn-sim" class="btn-sim-estilo" onclick="irParaResultado()">Sim</button>
+      <button id="btn-nao" class="btn-nao-estilo" onclick="aumentarSim()">Não</button>
+    </div>
+  </div>
+
+  <!-- Rota do Lucas -->
+  <div id="pergunta-lucas" class="card" style="display: none;">
+    <h1>Crossfit ou Musculação?</h1>
+    <div class="buttons">
+      <button id="btn-crossfit" onclick="aumentarMusculacao()">Crossfit</button>
+      <button id="btn-musculacao" onclick="irParaPergunta2Lucas()">Musculação</button>
+    </div>
+  </div>
+
+  <div id="pergunta-2-lucas" class="card" style="display: none;">
+    <h1>Estou Batizado?</h1>
+    <div class="buttons">
+      <button id="btn-sim-lucas" class="btn-sim-estilo" onclick="irParaResultadoLucas()">Sim</button>
+      <button id="btn-nao-lucas" class="btn-nao-estilo" onclick="aumentarSimLucas()">Não</button>
+    </div>
+  </div>
+
+  <!-- Rota da Carolina -->
+  <div id="pergunta-carolina" class="card" style="display: none;">
+    <h1>Gatos ou Cães?</h1>
+    <div class="buttons">
+      <button id="btn-caes" onclick="aumentarGatos()">Cães</button>
+      <button id="btn-gatos" onclick="irParaPergunta2Carolina()">Gatos</button>
+    </div>
+  </div>
+
+  <div id="pergunta-2-carolina" class="card" style="display: none;">
+    <h1>Estou Batizado?</h1>
+    <div class="buttons">
+      <button id="btn-sim-carolina" class="btn-sim-estilo" onclick="irParaResultadoCarolina()">Sim</button>
+      <button id="btn-nao-carolina" class="btn-nao-estilo" onclick="aumentarSimCarolina()">Não</button>
+    </div>
+  </div>
+
+  <!-- Rota do Miguel -->
+  <div id="pergunta-miguel" class="card" style="display: none;">
+    <h1>Eu vou ser o teu padrinho de casamento?</h1>
+    <div class="buttons">
+      <button id="btn-sim-padrinho" onclick="irParaPergunta2Miguel()">Sim</button>
+      <button id="btn-nao-padrinho" onclick="aumentarSimPadrinho()">Não</button>
+    </div>
+  </div>
+
+  <div id="pergunta-2-miguel" class="card" style="display: none;">
+    <h1>Estou Batizado?</h1>
+    <div class="buttons">
+      <button id="btn-sim-miguel" class="btn-sim-estilo" onclick="irParaResultadoMiguel()">Sim</button>
+      <button id="btn-nao-miguel" class="btn-nao-estilo" onclick="aumentarSimMiguel()">Não</button>
+    </div>
+  </div>
+
+  <!-- Telas de Sucesso -->
+  <div id="resultado" class="card">
+    <h1>Parabéns! 🎉</h1>
+    <div class="img-container">
+      <img src="50619.jpg" alt="Foto do Filipe" id="foto-pessoa">
+    </div>
+    <p class="mensagem-final">Mesmo que sejas do Sporting ainda és meu Bro💪</p>
+  </div>
+
+  <div id="resultado-lucas" class="card">
+    <h1>Parabéns! 🎉</h1>
+    <div class="img-container">
+      <img src="24584.jpg" alt="Foto do Lucas" id="foto-lucas">
+    </div>
+    <p class="mensagem-final">Mesmo que crossfit seja muito panino ainda és meu bro 💪</p>
+  </div>
+
+  <div id="resultado-carolina" class="card">
+    <h1>Parabéns! 🎉</h1>
+    <div class="img-container">
+      <img src="24588.jpg" alt="Foto da Carolina" id="foto-carolina">
+    </div>
+    <p class="mensagem-final">that's what she said</p>
+  </div>
+
+  <div id="resultado-miguel" class="card">
+    <h1>Parabéns! 🎉</h1>
+    <div class="img-container">
+      <img src="24586_2.jpg" alt="Foto do Miguel" id="foto-miguel">
+    </div>
+    <p class="mensagem-final">AHH GUARANÁ</p>
+  </div>
+
+  <script>
+    let escalaBenfica = 1;
+    let escalaSim = 1;
+
+    let escalaMusculacao = 1;
+    let escalaSimLucas = 1;
+
+    let escalaGatos = 1;
+    let escalaSimCarolina = 1;
+
+    let escalaSimPadrinho = 1;
+    let escalaSimMiguel = 1;
+
+    // Lógica Filipe
+    function irParaPergunta1() {
+      document.getElementById('pergunta-0').style.display = 'none';
+      document.getElementById('pergunta-1').style.display = 'flex';
+    }
+
+    function aumentarBenfica() {
+      const btnBenfica = document.getElementById('btn-benfica');
+      escalaBenfica += 0.8;
+      btnBenfica.style.transform = `scale(${escalaBenfica})`;
+
+      if (escalaBenfica > 9) {
+        btnBenfica.style.position = 'fixed';
+        btnBenfica.style.top = '0';
+        btnBenfica.style.left = '0';
+        btnBenfica.style.width = '100vw';
+        btnBenfica.style.height = '100vh';
+        btnBenfica.style.borderRadius = '0';
+        btnBenfica.style.display = 'flex';
+        btnBenfica.style.justifyContent = 'center';
+        btnBenfica.style.alignItems = 'center';
+        btnBenfica.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaPergunta2() {
+      document.getElementById('pergunta-1').style.display = 'none';
+      document.getElementById('pergunta-2').style.display = 'flex';
+    }
+
+    function aumentarSim() {
+      const btnSim = document.getElementById('btn-sim');
+      escalaSim += 0.8;
+      btnSim.style.transform = `scale(${escalaSim})`;
+
+      if (escalaSim > 9) {
+        btnSim.style.position = 'fixed';
+        btnSim.style.top = '0';
+        btnSim.style.left = '0';
+        btnSim.style.width = '100vw';
+        btnSim.style.height = '100vh';
+        btnSim.style.borderRadius = '0';
+        btnSim.style.display = 'flex';
+        btnSim.style.justifyContent = 'center';
+        btnSim.style.alignItems = 'center';
+        btnSim.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaResultado() {
+      document.getElementById('pergunta-2').style.display = 'none';
+      document.getElementById('resultado').style.display = 'flex';
+    }
+
+    // Lógica Lucas
+    function irParaPerguntaLucas() {
+      document.getElementById('pergunta-0').style.display = 'none';
+      document.getElementById('pergunta-lucas').style.display = 'flex';
+    }
+
+    function aumentarMusculacao() {
+      const btnMusculacao = document.getElementById('btn-musculacao');
+      escalaMusculacao += 0.8;
+      btnMusculacao.style.transform = `scale(${escalaMusculacao})`;
+
+      if (escalaMusculacao > 9) {
+        btnMusculacao.style.position = 'fixed';
+        btnMusculacao.style.top = '0';
+        btnMusculacao.style.left = '0';
+        btnMusculacao.style.width = '100vw';
+        btnMusculacao.style.height = '100vh';
+        btnMusculacao.style.borderRadius = '0';
+        btnMusculacao.style.display = 'flex';
+        btnMusculacao.style.justifyContent = 'center';
+        btnMusculacao.style.alignItems = 'center';
+        btnMusculacao.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaPergunta2Lucas() {
+      document.getElementById('pergunta-lucas').style.display = 'none';
+      document.getElementById('pergunta-2-lucas').style.display = 'flex';
+    }
+
+    function aumentarSimLucas() {
+      const btnSimLucas = document.getElementById('btn-sim-lucas');
+      escalaSimLucas += 0.8;
+      btnSimLucas.style.transform = `scale(${escalaSimLucas})`;
+
+      if (escalaSimLucas > 9) {
+        btnSimLucas.style.position = 'fixed';
+        btnSimLucas.style.top = '0';
+        btnSimLucas.style.left = '0';
+        btnSimLucas.style.width = '100vw';
+        btnSimLucas.style.height = '100vh';
+        btnSimLucas.style.borderRadius = '0';
+        btnSimLucas.style.display = 'flex';
+        btnSimLucas.style.justifyContent = 'center';
+        btnSimLucas.style.alignItems = 'center';
+        btnSimLucas.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaResultadoLucas() {
+      document.getElementById('pergunta-2-lucas').style.display = 'none';
+      document.getElementById('resultado-lucas').style.display = 'flex';
+    }
+
+    // Lógica Carolina
+    function irParaPerguntaCarolina() {
+      document.getElementById('pergunta-0').style.display = 'none';
+      document.getElementById('pergunta-carolina').style.display = 'flex';
+    }
+
+    function aumentarGatos() {
+      const btnGatos = document.getElementById('btn-gatos');
+      escalaGatos += 0.8;
+      btnGatos.style.transform = `scale(${escalaGatos})`;
+
+      if (escalaGatos > 9) {
+        btnGatos.style.position = 'fixed';
+        btnGatos.style.top = '0';
+        btnGatos.style.left = '0';
+        btnGatos.style.width = '100vw';
+        btnGatos.style.height = '100vh';
+        btnGatos.style.borderRadius = '0';
+        btnGatos.style.display = 'flex';
+        btnGatos.style.justifyContent = 'center';
+        btnGatos.style.alignItems = 'center';
+        btnGatos.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaPergunta2Carolina() {
+      document.getElementById('pergunta-carolina').style.display = 'none';
+      document.getElementById('pergunta-2-carolina').style.display = 'flex';
+    }
+
+    function aumentarSimCarolina() {
+      const btnSimCarolina = document.getElementById('btn-sim-carolina');
+      escalaSimCarolina += 0.8;
+      btnSimCarolina.style.transform = `scale(${escalaSimCarolina})`;
+
+      if (escalaSimCarolina > 9) {
+        btnSimCarolina.style.position = 'fixed';
+        btnSimCarolina.style.top = '0';
+        btnSimCarolina.style.left = '0';
+        btnSimCarolina.style.width = '100vw';
+        btnSimCarolina.style.height = '100vh';
+        btnSimCarolina.style.borderRadius = '0';
+        btnSimCarolina.style.display = 'flex';
+        btnSimCarolina.style.justifyContent = 'center';
+        btnSimCarolina.style.alignItems = 'center';
+        btnSimCarolina.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaResultadoCarolina() {
+      document.getElementById('pergunta-2-carolina').style.display = 'none';
+      document.getElementById('resultado-carolina').style.display = 'flex';
+    }
+
+    // Lógica Miguel
+    function irParaPerguntaMiguel() {
+      document.getElementById('pergunta-0').style.display = 'none';
+      document.getElementById('pergunta-miguel').style.display = 'flex';
+    }
+
+    function aumentarSimPadrinho() {
+      const btnSimPadrinho = document.getElementById('btn-sim-padrinho');
+      escalaSimPadrinho += 0.8;
+      btnSimPadrinho.style.transform = `scale(${escalaSimPadrinho})`;
+
+      if (escalaSimPadrinho > 9) {
+        btnSimPadrinho.style.position = 'fixed';
+        btnSimPadrinho.style.top = '0';
+        btnSimPadrinho.style.left = '0';
+        btnSimPadrinho.style.width = '100vw';
+        btnSimPadrinho.style.height = '100vh';
+        btnSimPadrinho.style.borderRadius = '0';
+        btnSimPadrinho.style.display = 'flex';
+        btnSimPadrinho.style.justifyContent = 'center';
+        btnSimPadrinho.style.alignItems = 'center';
+        btnSimPadrinho.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaPergunta2Miguel() {
+      document.getElementById('pergunta-miguel').style.display = 'none';
+      document.getElementById('pergunta-2-miguel').style.display = 'flex';
+    }
+
+    function aumentarSimMiguel() {
+      const btnSimMiguel = document.getElementById('btn-sim-miguel');
+      escalaSimMiguel += 0.8;
+      btnSimMiguel.style.transform = `scale(${escalaSimMiguel})`;
+
+      if (escalaSimMiguel > 9) {
+        btnSimMiguel.style.position = 'fixed';
+        btnSimMiguel.style.top = '0';
+        btnSimMiguel.style.left = '0';
+        btnSimMiguel.style.width = '100vw';
+        btnSimMiguel.style.height = '100vh';
+        btnSimMiguel.style.borderRadius = '0';
+        btnSimMiguel.style.display = 'flex';
+        btnSimMiguel.style.justifyContent = 'center';
+        btnSimMiguel.style.alignItems = 'center';
+        btnSimMiguel.style.fontSize = '4rem';
+      }
+    }
+
+    function irParaResultadoMiguel() {
+      document.getElementById('pergunta-2-miguel').style.display = 'none';
+      document.getElementById('resultado-miguel').style.display = 'flex';
+    }
+  </script>
+
+</body>
+</html>
